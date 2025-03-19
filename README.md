@@ -7,7 +7,7 @@
 # 可以使用api内的文件连接后端,需要修改plan.vue对应的代码
 
 # bug:搜索后删除会导致所有数据删除,因为搜索逻辑没写好,暂时未修改
-
+# 修复bug:总预算没能传入数组,导致在查看数据时无法显示
 # 项目截图
 ![img.png](src/assets/img/index.png)
 ![img.png](src/assets/img/login.png)

@@ -1,5 +1,5 @@
 <script setup>
-import {Delete, Edit, InfoFilled, Search} from "@element-plus/icons-vue";
+import {Delete, Edit, InfoFilled, Search, StarFilled} from "@element-plus/icons-vue";
 import {onMounted, ref} from "vue";
 import {ElMessage, ElMessageBox} from "element-plus";
 import router from "@/router/index.js";
@@ -88,6 +88,7 @@ function gotoPage(component)
     name: component,
     params: {dataArr: JSON.stringify(data.value.arr[selectRows.value.map((row) => data.value.arr.indexOf(row))])},
   })
+  console.log(JSON.stringify(data.value.arr[selectRows.value.map((row) => data.value.arr.indexOf(row))]))
 }
 
 </script>
@@ -110,7 +111,11 @@ function gotoPage(component)
       </el-button-group>
     </el-col>
   </el-row>
-  <hr>
+  <el-divider>
+    <el-icon>
+      <star-filled/>
+    </el-icon>
+  </el-divider>
   <el-button type="primary" v-on:click="gotoPage('newPage')">新增</el-button>
   <el-button type="danger" v-on:click="deleteRow">删除</el-button>
   <el-button type="warning">导出</el-button>
@@ -131,8 +136,6 @@ function gotoPage(component)
     <el-table-column label="创建时间" prop="createTime"/>
     <el-table-column label="培训情况" prop="train_status"/>
   </el-table>
-
-
 </template>
 
 <style scoped>

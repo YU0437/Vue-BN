@@ -1,11 +1,13 @@
-<script setup>
-
-</script>
-
 <template>
-考核
+  <el-steps :active="activeStep" finish-status="success">
+    <el-step title="提交申请"/>
+    <el-step title="审核中"/>
+    <el-step title="审核通过"/>
+  </el-steps>
 </template>
 
-<style scoped>
+<script lang="ts" setup>
+import {ref} from 'vue';
 
-</style>
+const activeStep = ref(1); // 当前步骤
+</script>

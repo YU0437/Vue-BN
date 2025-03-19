@@ -293,6 +293,8 @@ function submitForm() {
   [...planItems.value, ...infoItems.value, ...countItems.value].forEach((item) => {
     form[item.name] = item.value;
   });
+  // 计算总预算并保存
+  form["totalBudget"] = counter();
   // 检查 code 的唯一性（仅新增模式）
   if (!isEditMode.value) {
     const isCodeUnique = dataArr.value.every((obj) => obj.code !== form["code"]);

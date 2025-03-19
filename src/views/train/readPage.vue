@@ -10,8 +10,9 @@ const createTime = "createTime"
 // 监听路由参数变化
 watch(
     () => route.params.dataArr,
-    (newValue) => {
-      if (newValue) dataArr.value = JSON.parse(newValue);
+    (newValue) =>
+    {
+      if(newValue) dataArr.value = JSON.parse(newValue);
     }, {immediate: true}
 );
 // 计划信息
@@ -99,7 +100,7 @@ function goto(component)
   <el-card class="card" header="审核信息">
     <span>提交申请</span>{{ dataArr[createTime] }}
     <span>申请人员:双流机场指挥部/系统管理员</span>
-    <span>提交申请</span>{{ dataArr[createTime]}}
+    <span>提交申请</span>{{ dataArr[createTime] }}
     <span>审核人员:双流机场指挥部/固定审核人</span>
 
   </el-card>
