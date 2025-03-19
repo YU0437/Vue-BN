@@ -1,0 +1,420 @@
+<script lang="ts" setup>
+import {ref, watch} from "vue";
+import router from "@/router/index.js";
+import {useRoute} from "vue-router";
+import {dayjs, ElMessage, ElMessageBox} from "element-plus";
+
+// 收集表单数据
+const formData = {};
+const data = ref({arr: []});
+const route = useRoute();
+// 监听路由参数
+watch(
+    () => route.params.data,
+    (newValue) => {
+      if (typeof newValue === 'string') data.value = JSON.parse(newValue);
+    },
+    {immediate: true}
+);
+
+// 计划信息
+const planItems = ref([
+  {name: 'code', label: '项目编号', placeholder: '请输入项目编号', value: '', type: 'input'},
+  {name: 'item', label: '项目培训', placeholder: '请输入培训项目', value: '', type: 'input'},
+  {
+    name: 'plan_sort',
+    label: '计划类别',
+    placeholder: '请选择计划类别',
+    value: '',
+    type: 'select',
+    option: [
+      {label: '年度计划', value: '年度计划'},
+      {label: '季度计划', value: '季度计划'},
+      {label: '月度计划', value: '月度计划'},
+      {label: '周计划', value: '周计划'},
+    ],
+  },
+  {
+    name: 'train_time',
+    label: '培训时间',
+    placeholder: '请选择培训时间',
+    value: [],
+    type: 'multiplySelect',
+    option: [
+      {label: '一季度', value: '一季度'},
+      {label: '二季度', value: '二季度'},
+      {label: '三季度', value: '三季度'},
+      {label: '四季度', value: '四季度'},
+    ],
+  },
+  {
+    name: 'org_code',
+    label: '组织部门/编码',
+    placeholder: '请选择组织部门/编码',
+    value: '',
+    type: 'tree',
+    dataOption: [
+      {
+        value: '双流机场指挥部',
+        label: '双流机场指挥部',
+        children: [
+          {
+            value: '航站楼管理部',
+            label: '航站楼管理部',
+            children: [
+              {
+                value: '研发部门',
+                label: '研发部门',
+              },
+              {
+                value: '市场部门',
+                label: '市场部门',
+              },
+              {
+                value: '测试部门',
+                label: '测试部门',
+              },
+              {
+                value: '财务部门',
+                label: '财务部门',
+              },
+              {
+                value: '运维部门',
+                label: '运维部门',
+              },
+            ],
+          },
+          {
+            value: '地勤管理部门',
+            label: '地勤管理部门',
+            children: [
+              {
+                value: '地质检查部门',
+                label: '地质检查部门',
+              },
+              {
+                value: '地质采集部门',
+                label: '地质采集部门',
+              },
+            ],
+          },
+          {
+            value: '三维演练部门',
+            label: '三维演练部门',
+            children: [
+              {
+                value: '三维空间部门',
+                label: '三维空间部门',
+              },
+              {
+                value: '二维空间部门',
+                label: '二维空间部门',
+              },
+            ],
+          }
+        ],
+      },
+    ]
+  },
+  {
+    name: 'implement',
+    label: '实施部门/编码',
+    placeholder: '请选择实施部门/编码',
+    value: '',
+    type: 'tree',
+    dataOption: [
+      {
+        value: '双流机场指挥部',
+        label: '双流机场指挥部',
+        children: [
+          {
+            value: '航站楼管理部',
+            label: '航站楼管理部',
+            children: [
+              {
+                value: '研发部门',
+                label: '研发部门',
+              },
+              {
+                value: '市场部门',
+                label: '市场部门',
+              },
+              {
+                value: '测试部门',
+                label: '测试部门',
+              },
+              {
+                value: '财务部门',
+                label: '财务部门',
+              },
+              {
+                value: '运维部门',
+                label: '运维部门',
+              },
+            ],
+          },
+          {
+            value: '地勤管理部门',
+            label: '地勤管理部门',
+            children: [
+              {
+                value: '地质检查部门',
+                label: '地质检查部门',
+              },
+              {
+                value: '地质采集部门',
+                label: '地质采集部门',
+              },
+            ],
+          },
+          {
+            value: '三维演练部门',
+            label: '三维演练部门',
+            children: [
+              {
+                value: '三维空间部门',
+                label: '三维空间部门',
+              },
+              {
+                value: '二维空间部门',
+                label: '二维空间部门',
+              },
+            ],
+          }
+        ],
+      },
+    ]
+  },
+  {name: 'train_op', label: '培训对象', placeholder: '请输入培训对象', value: '', type: 'input'},
+  {
+    name: 'participants',
+    label: '计划参训人数(人)',
+    placeholder: '请输入计划参训人数(人)',
+    value: '',
+    type: 'input'
+  },
+  {name: 'trainingLocation', label: '培训地点', placeholder: '请输入培训地点', value: '', type: 'input'},
+])
+
+// 培训信息
+const infoItems = ref([
+  {
+    name: 'train_way',
+    label: '培训方式',
+    placeholder: '请输入培训方式',
+    value: '',
+    type: 'select',
+    option: [
+      {label: '内培', value: '内培'},
+      {label: '外培', value: '外培'},
+      {label: '统培', value: '统培'},
+    ],
+  },
+  {
+    name: 'train_sort',
+    label: '培训分类',
+    placeholder: '请输入培训分类',
+    value: '',
+    type: 'select',
+    option: [
+      {label: '软件培训', value: '软件培训'},
+      {label: '游戏培训', value: '游戏培训'},
+      {label: '资格证书', value: '资格证书'},
+    ],
+  },
+  {name: 'trainingHours', label: '培训课时(小时)', placeholder: '请输入培训课时(小时)', value: '', type: 'input'},
+  {
+    name: 'trainingTeacher',
+    label: '培训师资',
+    placeholder: '请输入培训师资',
+    value: '',
+    type: 'select',
+    option: [
+      {label: '内部', value: '内部'},
+      {label: '外部', value: '外部'},
+      {label: '总部', value: '总部'},
+    ],
+  },
+  {
+    name: 'trainingDirection',
+    label: '培训方向',
+    placeholder: '请输入培训方向',
+    value: '',
+    type: 'select',
+    option: [
+      {label: 'Java方向', value: 'Java方向'},
+      {label: '前端方向', value: '前端方向'},
+      {label: '运维方向', value: '运维方向'},
+      {label: '党工团建设', value: '党工团建设'},
+    ],
+  },
+  {
+    name: 'trainingType',
+    label: '培训类别',
+    placeholder: '请输入培训类别',
+    value: '',
+    type: 'select',
+    option: [
+      {label: '应急救援', value: '应急救援'},
+      {label: '销售口才', value: '销售口才'},
+      {label: '编程开发', value: '编程开发'},
+    ],
+  },
+  {name: 'remark', label: '备注', placeholder: '请输入备注', value: '', type: 'textarea'},
+]);
+
+// 预算信息
+const countItems = ref([
+  {name: 'travelCost', label: '差旅费(元)', placeholder: '请输入差旅费', value: '', type: 'input'},
+  {name: 'trainingCost', label: '培训费(元)', placeholder: '请输入培训费', value: '', type: 'input'},
+  {name: 'totalBudget', label: '总预算(元)', placeholder: '', value: '', type: 'counter'},
+]);
+
+// 计算总预算
+function counter() {
+  let sum = 0;
+  countItems.value.forEach(obj => {
+    sum += parseFloat(obj.value) || 0;
+  });
+  return sum;
+}
+
+// 提交表单
+function submitForm() {
+  [...planItems.value, ...infoItems.value, ...countItems.value].forEach(item => {
+    formData[item.name] = item.value;
+  });
+  ElMessageBox.confirm('是否保存数据', '标题', {
+    type: 'info',
+    confirmButtonText: "确认",
+    cancelButtonText: "取消",
+  })
+      .then(() => {
+        const now = dayjs(); // 获取当前时间
+        // 格式化并传给数据
+        formData["createTime"] = now.format("YYYY HH:mm:ss");
+        data.value.arr.push(formData);
+        localStorage.setItem("trainingData", JSON.stringify(data.value.arr));
+        ElMessage.success("添加数据成功");
+        router.push('index');
+      })
+      .catch(() => {
+        ElMessage.warning("取消添加");
+      });
+}
+
+// 返回首页
+function goto() {
+  router.push('index');
+}
+</script>
+
+<template>
+  <div class="page-container">
+    <el-card class="form-card">
+      <el-form label-width="120px">
+        <!-- 计划信息 -->
+        <el-card class="section-card" header="计划信息">
+          <el-row :gutter="20">
+            <el-col v-for="item in planItems" :span="8" :key="item.name">
+              <el-form-item :label="item.label">
+                <el-select
+                    v-if="item.type === 'multiplySelect'"
+                    v-model="item.value"
+                    :placeholder="item.placeholder"
+                    multiple
+                    clearable
+                >
+                  <el-option v-for="op in item.option" :key="op.value" :label="op.label" :value="op.value"/>
+                </el-select>
+                <el-select
+                    v-else-if="item.type === 'select'"
+                    v-model="item.value"
+                    :placeholder="item.placeholder"
+                    clearable
+                >
+                  <el-option v-for="op in item.option" :key="op.value" :label="op.label" :value="op.value"/>
+                </el-select>
+                <el-tree-select v-else-if="item.type==='tree'"
+                                v-model="item.value"
+                                :placeholder="item.placeholder"
+                                :data="item.dataOption"
+                                :render-after-expand="false"/>
+                <el-input v-else v-model="item.value" :placeholder="item.placeholder" clearable/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-card>
+
+        <!-- 培训信息 -->
+        <el-card class="section-card" header="培训信息">
+          <el-row :gutter="20">
+            <el-col v-for="item in infoItems" :span="8" :key="item.name">
+              <el-form-item :label="item.label">
+                <el-select
+                    v-if="item.type === 'multiplySelect'"
+                    v-model="item.value"
+                    :placeholder="item.placeholder"
+                    multiple
+                    clearable
+                >
+                  <el-option v-for="op in item.option" :key="op.value" :label="op.label" :value="op.value"/>
+                </el-select>
+                <el-select
+                    v-else-if="item.type === 'select'"
+                    v-model="item.value"
+                    :placeholder="item.placeholder"
+                    clearable
+                >
+                  <el-option v-for="op in item.option" :key="op.value" :label="op.label" :value="op.value"/>
+                </el-select>
+                <el-input v-else-if="item.type === 'textarea'" v-model="item.value" type="textarea" clearable/>
+                <el-input v-else v-model="item.value" :placeholder="item.placeholder" clearable/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-card>
+
+        <!-- 预算信息 -->
+        <el-card class="section-card" header="预算信息">
+          <el-row :gutter="20">
+            <el-col v-for="item in countItems" :span="8" :key="item.name">
+              <el-form-item :label="item.label">
+                <el-input v-if="item.type === 'counter'" :value="counter()" readonly/>
+                <el-input v-else v-model="item.value" :placeholder="item.placeholder" clearable/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-card>
+        <!-- 操作按钮 -->
+        <div class="action-buttons">
+          <el-button type="primary" @click="submitForm">提交</el-button>
+          <el-button type="info" @click="goto">返回</el-button>
+        </div>
+      </el-form>
+    </el-card>
+  </div>
+</template>
+
+<style scoped>
+.page-container {
+  padding: 20px;
+  background-color: #f5f7fa;
+}
+
+.form-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.section-card {
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.action-buttons {
+  text-align: center;
+  margin-top: 20px;
+}
+</style>
