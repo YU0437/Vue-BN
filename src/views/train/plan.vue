@@ -20,12 +20,17 @@ function updateDate()
   localStorage.setItem("trainingData", JSON.stringify(data.value.arr));
 }
 
+function resetDate()
+{
+  data.value.arr = JSON.parse(localStorage.getItem("trainingData"));//更新数据
+}
+
 function clear()
 {
   item.value = "";
   code.value = "";
   selectRows.value.length = 0;
-  data.value.arr = JSON.parse(localStorage.getItem("trainingData"));//更新数据
+  resetDate();
   ElMessage.success('重置成功!',);
   console.log(data.value.arr)
 }
@@ -65,12 +70,12 @@ function searchRows()
 
 function gotoPage(component)
 {
-  if (component === 'addPage')
+  if (component === 'newPage')
   {
     return router.push({
-      name: 'addPage',
+      name: 'editPage',
       params: {data: JSON.stringify(data.value)},
-    });
+    })
   }
   else if (selectRows.value.length !== 1) return ElMessage.warning("请选择一条数据");
 
@@ -102,7 +107,7 @@ function gotoPage(component)
     </el-col>
   </el-row>
   <hr>
-  <el-button type="primary" v-on:click="gotoPage('addPage')">新增</el-button>
+  <el-button type="primary" v-on:click="gotoPage('newPage')">新增</el-button>
   <el-button type="danger" v-on:click="deleteRow">删除</el-button>
   <el-button type="warning">导出</el-button>
 

@@ -1,7 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'; // 引入 Vue 3 的路由函数
 import login from "@/views/login.vue";
 import plan from "@/views/train/plan.vue";
-import addPage from "@/views/train/addPage.vue";
 import nav from "@/views/nav.vue";
 import readPage from "@/views/train/readPage.vue";
 import editPage from "@/views/train/editPage.vue";
@@ -21,11 +20,6 @@ const routes = [
 		path: '/plan', // 路由路径
 		name: 'plan',
 		component: plan, // 对应的组件
-	},
-	{
-		path: '/addPage', // 路由路径
-		name: 'addPage',
-		component: addPage, // 对应的组件
 	},
 	{
 		path: '/readPage', // 路由路径

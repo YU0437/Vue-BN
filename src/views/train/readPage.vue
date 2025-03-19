@@ -5,7 +5,8 @@ import router from "@/router/index.js";
 
 const route = useRoute();
 const dataArr = ref({});
-const name = "createTime"
+const createTime = "createTime"
+
 // 监听路由参数变化
 watch(
     () => route.params.dataArr,
@@ -96,12 +97,10 @@ function goto(component)
   </div>
   <!-- 审核信息 -->
   <el-card class="card" header="审核信息">
-    s
-
-    <span>提交申请</span>{{ dataArr[name] }}
+    <span>提交申请</span>{{ dataArr[createTime] }}
     <span>申请人员:双流机场指挥部/系统管理员</span>
-    <!--      <span>提交申请</span>{{ dataArr["createTime"] }}-->
-    <!--      <span>审核人员:双流机场指挥部/固定审核人</span>-->
+    <span>提交申请</span>{{ dataArr[createTime]}}
+    <span>审核人员:双流机场指挥部/固定审核人</span>
 
   </el-card>
 </template>
