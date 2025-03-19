@@ -3,6 +3,7 @@ import {onMounted, ref, watch} from "vue";
 import router from "@/router/index.js";
 import {useRoute} from "vue-router";
 import {dayjs, ElMessage, ElMessageBox} from "element-plus";
+import FileUpload from "@/components/FileUpload.vue";
 
 // 获取路由信息
 const route = useRoute();
@@ -10,6 +11,9 @@ const isEditMode = ref(false); // 是否是编辑模式
 const formData = ref({code: ''}); // 表单数据
 const dataArr = ref([]); // 存储所有数据的数组
 const index = ref(-1); // 当前编辑数据的索引
+// 获取上传的文件列表
+const fileUploadRef = ref();
+const uploadedFiles = ref<{ name: string; url: string }[]>([]);
 // 计划信息
 const planItems = ref([
   {name: "code", label: "项目编号", placeholder: "请输入项目编号", value: "", type: "input"},
@@ -254,7 +258,35 @@ const countItems = ref([
   {name: "trainingCost", label: "培训费(元)", placeholder: "请输入培训费", value: "", type: "input"},
   {name: "totalBudget", label: "总预算(元)", placeholder: "", value: "", type: "counter"},
 ]);
+// 页面加载时初始化数据
+onMounted(() => {
+  const savedData = localStorage.getItem("trainingData");
+  if (savedData) {
+    dataArr.value = JSON.parse(savedData);
+    if (isEditMode.value) {
+      // 如果是编辑模式，找到对应的数据并填充表单
+      index.value = dataArr.value.findIndex(
+          (item) => item.code === formData.value.code
+      );
+      if (index.value !== -1) {
+        const currentData = dataArr.value[index.value]; // 将 currentData 定义在这里
+        [...planItems.value, ...infoItems.value, ...countItems.value].forEach(
+            (item) => {
+              item.value = currentData[item.name];
+            }
+        );
+        // 初始化文件列表
+        fileUploadRef.value.fileList = currentData.files || [];
+      }
+    }
+  }
+});
+// 监听文件列表的变化
+onMounted(() => {
+  uploadedFiles.value = fileUploadRef.value.fileList;
+});
 
+//获取选中的数据,并判断是新增/修改页面
 watch(
     () => route.params.dataArr,
     (newValue) => {
@@ -266,27 +298,6 @@ watch(
     {immediate: true}
 );
 
-// 页面加载时初始化数据
-onMounted(() => {
-  const savedData = localStorage.getItem("trainingData");
-  if (savedData) {
-    dataArr.value = JSON.parse(savedData);//所有数组数据存入dataArr
-    if (isEditMode.value) {
-      // 如果是编辑模式，找到对应的数据并填充表单
-      index.value = dataArr.value.findIndex(
-          (item) => item.code === formData.value.code
-      );
-      if (index.value !== -1) {
-        [...planItems.value, ...infoItems.value, ...countItems.value].forEach(
-            (item) => {
-              item.value = formData.value[item.name];
-            }
-        );
-      }
-    }
-  }
-});
-
 // 提交表单
 function submitForm() {
   const form = {};
@@ -296,6 +307,8 @@ function submitForm() {
   // 计算总预算并保存
   form["totalBudget"] = counter();
   form["createTime"] = '';
+  // 保存文件列表
+  form["files"] = fileUploadRef.value.fileList; // 将文件列表存入当前数据
   // 检查 code 的唯一性（仅新增模式）
   if (!isEditMode.value) {
     const isCodeUnique = dataArr.value.every((obj) => obj.code !== form["code"]);
@@ -422,6 +435,17 @@ function goto() {
           </el-row>
         </el-card>
 
+
+        <!--培训材料-->
+        <el-card class="section-card" header="预算信息">
+          <FileUpload ref="fileUploadRef"/>
+          <div style="margin-top: 20px;">
+            <h5>上传的文件列表：</h5>
+            <ul>
+              <li v-for="file in uploadedFiles" :key="file.name">{{ file.name }}</li>
+            </ul>
+          </div>
+        </el-card>
         <!-- 操作按钮 -->
         <div class="action-buttons">
           <el-button type="primary" @click="submitForm">{{ isEditMode ? "更新" : "提交" }}</el-button>

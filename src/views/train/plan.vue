@@ -88,7 +88,6 @@ function gotoPage(component)
     name: component,
     params: {dataArr: JSON.stringify(data.value.arr[selectRows.value.map((row) => data.value.arr.indexOf(row))])},
   })
-  console.log(JSON.stringify(data.value.arr[selectRows.value.map((row) => data.value.arr.indexOf(row))]))
 }
 
 </script>
