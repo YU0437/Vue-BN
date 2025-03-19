@@ -98,9 +98,3 @@ Contributions are welcome! If you have any suggestions or find a bug, please sub
 **Although this is an unfinished small project, if you like it, please give it a Star!**
 
 ---
-
-### **双语对照说明**
-
-- 中文部分使用较大字体，英文部分使用较小字体，便于双语对照阅读。
-- The Chinese text is displayed in a larger font, while the English text is in a smaller font for easy bilingual
-  comparison.
