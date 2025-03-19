@@ -295,6 +295,7 @@ function submitForm() {
   });
   // 计算总预算并保存
   form["totalBudget"] = counter();
+  form["createTime"] = '';
   // 检查 code 的唯一性（仅新增模式）
   if (!isEditMode.value) {
     const isCodeUnique = dataArr.value.every((obj) => obj.code !== form["code"]);
@@ -317,6 +318,7 @@ function submitForm() {
           // 新增模式：添加数据
           form["createTime"] = dayjs().format("YYYY-MM-DD HH:mm:ss");
           dataArr.value.push(form);
+          console.log(dataArr)
           ElMessage.success("数据添加成功");
         }
         localStorage.setItem("trainingData", JSON.stringify(dataArr.value));

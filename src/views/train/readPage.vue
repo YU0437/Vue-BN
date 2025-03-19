@@ -6,7 +6,7 @@ import router from "@/router/index.js";
 const route = useRoute();
 const dataArr = ref({});
 const createTime = "createTime"
-
+const activeStep = ref(2); // 当前步骤
 // 监听路由参数变化
 watch(
     () => route.params.dataArr,
@@ -51,6 +51,8 @@ function goto(component)
   //返回主页和功能页
   router.push(component)
 }
+
+console.log(dataArr)
 </script>
 
 <template>
@@ -93,17 +95,20 @@ function goto(component)
       </el-col>
     </el-row>
   </el-card>
+
+  <!-- 审核信息 -->
+  <el-card class="card" header="审核信息">
+    <el-steps :direction="'vertical'" :active="activeStep" finish-status="success">
+      <el-step title="提交申请" :description="dataArr[createTime]"/>
+      <span class="span-tips">申请人员:双流机场指挥部/系统管理员</span>
+      <el-step title="审核中" description="正在审核中,请耐心等待"/>
+      <el-step title="审核通过"/>
+      <span class="span-tips">审核人员:双流机场指挥部/固定审核人</span>
+    </el-steps>
+  </el-card>
   <div style="display: grid; place-items: center;">
     <el-button type="primary" v-on:click="goto('index')">返回</el-button>
   </div>
-  <!-- 审核信息 -->
-  <el-card class="card" header="审核信息">
-    <span>提交申请</span>{{ dataArr[createTime] }}
-    <span>申请人员:双流机场指挥部/系统管理员</span>
-    <span>提交申请</span>{{ dataArr[createTime] }}
-    <span>审核人员:双流机场指挥部/固定审核人</span>
-
-  </el-card>
 </template>
 
 <style scoped>
@@ -115,4 +120,13 @@ function goto(component)
   font-size: 14px;
   font-weight: bolder;
 }
+
+
+.span-tips {
+  font-size: 12px; /* 字体大小 */
+  color: #666; /* 字体颜色 */
+  margin-top: 5px; /* 上边距 */
+  display: block; /* 使 span 独占一行 */
+}
+
 </style>
