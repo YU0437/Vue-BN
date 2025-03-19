@@ -295,12 +295,10 @@ function submitForm() {
   });
   // 检查 code 的唯一性（仅新增模式）
   if (!isEditMode.value) {
-    const isCodeUnique = !dataArr.value.some(
-        (item) => item.code === planItems.value[0].value
-    );
+    const isCodeUnique = dataArr.value.every((obj) => obj.code !== form["code"]);
     if (!isCodeUnique) {
       ElMessage.warning("项目编号已存在");
-      return;
+      return; // 停止提交
     }
   }
   ElMessageBox.confirm("是否保存数据？", "提示", {

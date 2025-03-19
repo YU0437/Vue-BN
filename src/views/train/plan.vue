@@ -9,9 +9,10 @@ const code = ref("");
 const selectRows = ref([]);
 const data = ref({arr: []});
 // 从 LocalStorage 加载数据
-onMounted(() => {
+onMounted(() =>
+{
   const savedData = localStorage.getItem("trainingData");
-  if (savedData) data.value.arr = JSON.parse(savedData);
+  if(savedData) data.value.arr = JSON.parse(savedData);
 });
 
 function updateDate()
@@ -42,42 +43,45 @@ function selected(select)
 
 function deleteRow()
 {
-  if (selectRows.value.length === 0) return;
+  if(selectRows.value.length === 0) return;
   ElMessageBox.confirm('确认删除', '标题', {
     type: 'warning',
     confirmButtonText: "确认",
     cancelButtonText: "取消",
   })
-      .then(() => {
+      .then(() =>
+      {
         data.value.arr = data.value.arr.filter(
             (row) => !selectRows.value.includes(row));
         updateDate();//更新数据
         ElMessage.success("删除成功");
       })
-      .catch(() => {
+      .catch(() =>
+      {
         ElMessage.info("取消删除");
       })
 }
 
 function searchRows()
 {
-  if (!item.value && !code.value) return ElMessage.warning("请输入搜索内容");
-  data.value.arr = data.value.arr.filter(row => {
-    if (row.code) return row.code.includes(code.value)
+  if(!item.value && !code.value) return ElMessage.warning("请输入搜索内容");
+  data.value.arr = data.value.arr.filter(row =>
+  {
+    if(row.code) return row.code.includes(code.value)
   });//过滤搜索信息
   return ElMessage.success("检索到了" + data.value.arr.length + "条数据!");
 }
 
 function gotoPage(component)
 {
-  if (component === 'newPage')
+  if(component === 'newPage')
   {
     return router.push({
       name: 'editPage',
       params: {data: JSON.stringify(data.value)},
     })
   }
-  else if (selectRows.value.length !== 1) return ElMessage.warning("请选择一条数据");
+  else if(selectRows.value.length !== 1) return ElMessage.warning("请选择一条数据");
 
 
   router.push({
