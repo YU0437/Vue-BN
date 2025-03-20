@@ -57,7 +57,7 @@ function goto(component)
             <template #title>培训管理</template>
             <el-menu-item index="2-1" @click="goto(plan)">培训计划</el-menu-item>
             <el-menu-item index="2-2" @click="goto(check)">培训总结</el-menu-item>
-            <el-menu-item index="2-3" @click="goto(summary)">培训考核</el-menu-item>
+            <el-menu-item index="2-3" @click="goto(summary)">项目审核</el-menu-item>
           </el-sub-menu>
         </el-menu>
       </el-aside>

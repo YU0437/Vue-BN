@@ -6,6 +6,7 @@ import router from "@/router/index.js";
 const route = useRoute();
 const dataArr = ref({});
 const createTime = "createTime"
+const reviewTime = "reviewTime"
 const activeStep = ref(2); // 当前步骤
 // 监听路由参数变化
 watch(
@@ -52,9 +53,25 @@ function goto(component)
   router.push(component)
 }
 
-console.log(dataArr)
+function passReview()
+{
+  if(dataArr.value["isPassReview"] === false)
+  {
+    activeStep.value = 2;
+    return false;
+  }
+  else if(dataArr.value["isPassReview"] === true)
+  {
+    activeStep.value = 3;
+    return true;
+  }
+  else if(dataArr.value["reviewTime"] === "")
+  {
+    activeStep.value = 2;
+    return null;
+  }
+}
 </script>
-
 <template>
 
   <!-- 计划信息 -->
@@ -102,7 +119,10 @@ console.log(dataArr)
       <el-step title="提交申请" :description="dataArr[createTime]"/>
       <span class="span-tips">申请人员:双流机场指挥部/系统管理员</span>
       <el-step title="审核中" description="正在审核中,请耐心等待"/>
-      <el-step title="审核通过"/>
+      <span class="span-tips">审核时间在1-3个工作日左右</span>
+      <el-step v-if="passReview()===true" title="审核通过" :description="dataArr[reviewTime]"/>
+      <el-step v-else-if="passReview()===null" title="审核通过"/>
+      <el-step v-else title="您未通过审核,请重新提交!" :description="dataArr[reviewTime]"/>
       <span class="span-tips">审核人员:双流机场指挥部/固定审核人</span>
     </el-steps>
   </el-card>

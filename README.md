@@ -5,6 +5,12 @@ A small Vue project based on local browser storage (data will be deleted when br
 
 ---
 
+# **当前版本 | Current Version**
+
+1.1.4
+
+---
+
 # **目前尚未实现的功能 | Unimplemented Features**
 
 - 未实现登录验证功能（没有与后端绑定，可以使用 `api` 内的文件连接后端，需要修改 `plan.vue` 对应的代码）。  
@@ -14,11 +20,10 @@ A small Vue project based on local browser storage (data will be deleted when br
 - 未实现表单验证功能（目前仅实现了主键不能重复）。  
   Form validation is not fully implemented (currently, only the primary key duplication check is implemented).
 
----
+# **新增功能 | Unimplemented Features**
 
-# **当前版本 | Current Version**
-
-1.1.3
+- 新增审核功能(完善)
+  可以在查看页面查看审核进度 可以在审核页面对数据进行审核
 
 ---
 
@@ -36,40 +41,6 @@ A small Vue project based on local browser storage (data will be deleted when br
   The total budget was not passed into the array, causing it to be unavailable when viewing data [Fixed].
 
 ---
-
-# **文件上传与下载功能 | File Upload and Download Functionality**
-
-功能描述 | Function Description:
-文件上传与下载功能已实现，只需调用 FileUpload.vue 组件即可使用。在 editPage.vue 中已经集成了该功能。
-The file upload and download functionality has been implemented. Simply call the FileUpload.vue component to use it. It
-has already been integrated into editPage.vue.
-
-使用步骤 | Usage Steps:
-
-初始化文件列表 | Initialize File List:
-在页面加载时，初始化文件列表。
-Initialize the file list when the page loads.
-
-获取上传的文件列表 | Get Uploaded File List:
-通过 FileUpload.vue 组件获取用户上传的文件列表。
-Use the FileUpload.vue component to get the list of files uploaded by the user.
-
-监听文件列表的变化 | Monitor Changes to the File List:
-实时监听文件列表的变化，确保界面与数据同步。
-Monitor changes to the file list in real-time to ensure the interface stays in sync with the data.
-
-将文件列表存入对象中 | Save File List to an Object:
-将最终的文件列表存入相应的数据对象中，以便后续操作。
-Save the final file list to the corresponding data object for further operations.
-
-注意事项 | Notes:
-
-确保文件上传和下载的接口已经正确配置，并且文件大小和类型符合要求。
-Ensure that the file upload and download interfaces are properly configured, and that file sizes and types meet the
-requirements.
-
-如果需要限制文件类型或大小，请在 FileUpload.vue 组件中设置相关参数。
-If you need to restrict file types or sizes, set the relevant parameters in the FileUpload.vue component.
 
 # **美化界面 | UI Improvements**
 

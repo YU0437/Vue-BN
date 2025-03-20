@@ -8,8 +8,8 @@ import FileUpload from "@/components/FileUpload.vue";
 // 获取路由信息
 const route = useRoute();
 const isEditMode = ref(false); // 是否是编辑模式
-const formData = ref({code: ''}); // 表单数据
-const dataArr = ref([]); // 存储所有数据的数组
+const formData = ref({code: ''}); // 所有表单数据,通过读取浏览器获得
+const dataArr = ref([]); // 存储一条信息所有数据的数组,通过router传参获得
 const index = ref(-1); // 当前编辑数据的索引
 // 获取上传的文件列表
 const fileUploadRef = ref();
@@ -307,6 +307,8 @@ function submitForm() {
   // 计算总预算并保存
   form["totalBudget"] = counter();
   form["createTime"] = '';
+  form["reviewTime"] = '';
+  form["isPassReview"] = 'false';
   // 保存文件列表
   form["files"] = fileUploadRef.value.fileList; // 将文件列表存入当前数据
   // 检查 code 的唯一性（仅新增模式）
@@ -331,7 +333,6 @@ function submitForm() {
           // 新增模式：添加数据
           form["createTime"] = dayjs().format("YYYY-MM-DD HH:mm:ss");
           dataArr.value.push(form);
-          console.log(dataArr)
           ElMessage.success("数据添加成功");
         }
         localStorage.setItem("trainingData", JSON.stringify(dataArr.value));
@@ -355,6 +356,8 @@ function counter() {
 function goto() {
   router.push({name: "index"});
 }
+
+
 </script>
 
 <template>
@@ -446,6 +449,7 @@ function goto() {
             </ul>
           </div>
         </el-card>
+
         <!-- 操作按钮 -->
         <div class="action-buttons">
           <el-button type="primary" @click="submitForm">{{ isEditMode ? "更新" : "提交" }}</el-button>
@@ -456,7 +460,7 @@ function goto() {
   </div>
 </template>
 
-<style scoped>
+<style>
 .page-container {
   padding: 20px;
   background-color: #f5f7fa;

@@ -64,6 +64,7 @@ function deleteRow()
 
 function searchRows()
 {
+
   if(!item.value && !code.value) return ElMessage.warning("请输入搜索内容");
   data.value.arr = data.value.arr.filter(row =>
   {
@@ -74,22 +75,14 @@ function searchRows()
 
 function gotoPage(component)
 {
-  if(component === 'newPage')
-  {
-    return router.push({
-      name: 'editPage',
-      params: {data: JSON.stringify(data.value)},
-    })
-  }
+  if(component === 'newPage') return router.push('editPage');//新增页面
   else if(selectRows.value.length !== 1) return ElMessage.warning("请选择一条数据");
 
-
   router.push({
-    name: component,
+    name: component,//查看/编辑页面 传入选中的数据
     params: {dataArr: JSON.stringify(data.value.arr[selectRows.value.map((row) => data.value.arr.indexOf(row))])},
   })
 }
-
 </script>
 <template>
   <el-row :gutter="50" align="middle">
