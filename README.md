@@ -53,9 +53,15 @@ A small Vue project based on local browser storage (data will be deleted when br
 
 ![首页 | Home Page](src/assets/img/index.png)  
 ![登录页 | Login Page](src/assets/img/login.png)  
-![审核界面 | Review Interface](src/assets/img/review.png)
+![审核界面 | Review Interface](src/assets/img/review1.png)
+![审核界面 | Review Interface](src/assets/img/review2.png)
+![审核界面 | Review Interface](src/assets/img/review3.png)
+![下载](src/assets/img/download.png)
+![编辑](src/assets/img/edit.png)
+
 
 ---
+![img.png](img.png)
 
 # **贡献指南 | Contribution Guidelines**
 
