@@ -425,7 +425,6 @@ function goto() {
             </el-col>
           </el-row>
         </el-card>
-
         <!-- 预算信息 -->
         <el-card class="section-card" header="预算信息">
           <el-row :gutter="20">
@@ -437,8 +436,6 @@ function goto() {
             </el-col>
           </el-row>
         </el-card>
-
-
         <!--培训材料-->
         <el-card class="section-card" header="预算信息">
           <FileUpload ref="fileUploadRef"/>
@@ -449,7 +446,6 @@ function goto() {
             </ul>
           </div>
         </el-card>
-
         <!-- 操作按钮 -->
         <div class="action-buttons">
           <el-button type="primary" @click="submitForm">{{ isEditMode ? "更新" : "提交" }}</el-button>

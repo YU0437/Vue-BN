@@ -7,7 +7,7 @@ A small Vue project based on local browser storage (data will be deleted when br
 
 # **当前版本 | Current Version**
 
-1.1.4
+1.1.5
 
 ---
 
@@ -29,23 +29,20 @@ A small Vue project based on local browser storage (data will be deleted when br
 
 # **Bug**
 
-- 搜索后删除会导致所有数据删除，因为搜索逻辑没写好，暂时未修改。  
-  Deleting after searching will cause all data to be deleted due to poorly implemented search logic. This has not been
-  fixed yet.
+- 暂未发现
 
 ---
 
 # **修复的 Bug | Fixed Bugs**
 
-- 总预算没能传入数组，导致在查看数据时无法显示 [已修复]。  
-  The total budget was not passed into the array, causing it to be unavailable when viewing data [Fixed].
+- 总预算没能传入数组，导致在查看数据时无法显示 [已修复]。
+- 修复搜索问题,现在搜索不会影响数据了
 
 ---
 
 # **美化界面 | UI Improvements**
 
-- 做了点小美化。  
-  Some minor UI improvements have been made.
+- 做了点小美化。
 
 ---
 
