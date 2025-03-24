@@ -5,6 +5,7 @@ import {dayjs, ElMessage} from "element-plus";
 const selectRows = ref([]);//被选中的数据
 const data = ref({arr: []});//所有数据
 const dataSelect = ref(null); // 用于存储选中的单条数据
+const reviewData = ref({arr: []});
 // 从 LocalStorage 加载数据
 onMounted(() =>
 {
@@ -37,6 +38,12 @@ function review()
   ElMessage.success("项目:" + dataSelect.value.code + "已通过审核!");
   dataSelect.value.reviewTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
   dataSelect.value.isPassReview = true;
+  console.log(dataSelect.value)
+  // reviewData.value.arr = data.value.arr.filter(obj =>
+  // {
+  //   obj.isPassReview = true;
+  // });
+
   updateDate();
 }
 
@@ -50,8 +57,9 @@ function FailReview()
 }
 </script>
 <template>
-  <el-table :data="data.arr" style="width: 1400px; " :cell-style="{ padding: '25px 0' }"
-            v-on:selection-change="selected" row-key="code">
+
+  <el-table :data="data.arr" style="width:85%;position: fixed " :cell-style="{ padding: '25px 0' }"
+            v-on:selection-change="selected" row-key="code" height="500px">
     <el-table-column type="selection"/>
     <el-table-column label="序号" type="index" width="80"/>
     <el-table-column label="项目编号" prop="code"/>
@@ -66,23 +74,29 @@ function FailReview()
     <el-table-column label="创建时间" prop="createTime"/>
     <el-table-column label="培训情况" prop="train_status"/>
   </el-table>
-
   <!-- 审核信息 -->
-  <el-card class="card" header="审核" style=" text-align: center;">
-    <div class="action-buttons">
-      <el-button type="success" @click="review">通过审核</el-button>
-      <el-button type="warning" @click="FailReview">未通过审核</el-button>
-    </div>
-  </el-card>
+  <el-affix position="bottom" :offset="0">
+    <el-card class="card" header="审核" style="text-align: center;position: fixed;width: 85%;height: 18%">
+      <div class="action-buttons">
+        <el-button type="success" @click="review">通过审核</el-button>
+        <el-button type="warning" @click="FailReview">未通过审核</el-button>
+      </div>
+    </el-card>
+  </el-affix>
 </template>
 
 <style scoped>
 .card {
   background-color: #d7e0e6;
-  align-items: flex-start;
-  padding: 5px;
-  margin-bottom: 20px;
+  width: 100%; /* 让卡片占满宽度 */
   font-size: 14px;
   font-weight: bolder;
+  box-sizing: border-box; /* 确保 padding 不会影响宽度 */
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* 按钮之间的间距 */
 }
 </style>
