@@ -7,7 +7,7 @@ A small Vue project based on local browser storage (data will be deleted when br
 
 # **当前版本 | Current Version**
 
-1.1.5
+1.16 审核系统进一步完善,优化代码逻辑
 
 ---
 
@@ -58,7 +58,7 @@ A small Vue project based on local browser storage (data will be deleted when br
 
 
 ---
-![img.png](img.png)
+![img.png](src/assets/img/img.png)
 
 # **贡献指南 | Contribution Guidelines**
 

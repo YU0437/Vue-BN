@@ -258,6 +258,12 @@ const countItems = ref([
   {name: "trainingCost", label: "培训费(元)", placeholder: "请输入培训费", value: "", type: "input"},
   {name: "totalBudget", label: "总预算(元)", placeholder: "", value: "", type: "counter"},
 ]);
+//创建时间
+const reviewItems = ref([
+  {name: "createTime", value: ""},
+  {name: "reviewTime", value: ""},
+  {name: "isPassReview", value: null},
+]);
 // 页面加载时初始化数据
 onMounted(() => {
   const savedData = localStorage.getItem("trainingData");
@@ -301,14 +307,11 @@ watch(
 // 提交表单
 function submitForm() {
   const form = {};
-  [...planItems.value, ...infoItems.value, ...countItems.value].forEach((item) => {
+  [...planItems.value, ...infoItems.value, ...countItems.value, ...reviewItems.value].forEach((item) => {
     form[item.name] = item.value;
   });
   // 计算总预算并保存
   form["totalBudget"] = counter();
-  form["createTime"] = '';
-  form["reviewTime"] = '';
-  form["isPassReview"] = 'false';
   // 保存文件列表
   form["files"] = fileUploadRef.value.fileList; // 将文件列表存入当前数据
   // 检查 code 的唯一性（仅新增模式）

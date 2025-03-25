@@ -123,7 +123,7 @@ function passReview()
       <el-step title="审核中" description="正在审核中,请耐心等待"/>
       <span class="span-tips">审核时间在1-3个工作日左右</span>
       <el-step v-if="passReview()===true" title="审核通过" :description="dataArr[reviewTime]"/>
-      <el-step v-else-if="passReview()===null" title="审核通过"/>
+      <el-step v-else-if="passReview()===null" title="等待审核通过"/>
       <el-step v-else title="您未通过审核,请重新提交!" :description="dataArr[reviewTime]"/>
       <span class="span-tips">审核人员:双流机场指挥部/固定审核人</span>
     </el-steps>
